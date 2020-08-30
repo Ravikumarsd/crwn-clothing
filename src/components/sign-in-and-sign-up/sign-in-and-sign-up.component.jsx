@@ -6,14 +6,10 @@ import SignUp from "../sign-up/sign-up.component";
 const SignInAndSignUp = () => {
   return (
     <div className="sign-in-sign-up">
-      <div>
-        SIGNIN
-        <SignIn />
-      </div>
-      <div>
-        SIGNUP
-        <SignUp />
-      </div>
+      SIGNIN
+      <SignIn />
+      SIGNUP
+      <SignUp />
     </div>
   );
 };
