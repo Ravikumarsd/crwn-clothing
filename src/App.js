@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import "./App.css";
 import Homepage from "./pages/homepage/homepage.component";
 import { Switch, Route, Redirect } from "react-router-dom";
@@ -8,11 +7,11 @@ import Header from "./components/header/header.component";
 import SignInAndSignUp from "./components/sign-in-and-sign-up/sign-in-and-sign-up.component";
 import { auth, createUserProfileDocument } from "./firebase/firebase.utils";
 import { setCurrentUser } from "./redux/user/user.action";
-
 import { connect } from "react-redux";
 
 class App extends Component {
   unSubscribeFromAuth = null;
+
   componentDidMount() {
     const { setCurrentUser } = this.props;
     this.unSubscribeFromAuth = auth.onAuthStateChanged(async (userAuth) => {
@@ -30,9 +29,12 @@ class App extends Component {
       }
     });
   }
+
   componentWillUnmount() {
     this.unSubscribeFromAuth();
   }
+  renderSigin = () =>
+    this.props.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />;
 
   render() {
     return (
@@ -41,21 +43,15 @@ class App extends Component {
         <Switch>
           <Route exact path="/" component={Homepage} />
           <Route exact path="/shop" component={ShopPage} />
-          <Route
-            exact
-            path="/signin"
-            render={() =>
-              this.props.currentUser ? <Redirect to="/" /> : <SignInAndSignUp />
-            }
-          />
+          <Route exact path="/signin" render={this.renderSigin} />
         </Switch>
       </div>
     );
   }
 }
 
-const mapStateToProps = ({ user }) => ({
-  currentUser: user.currentUser,
+const mapStateToProps = ({ user: { currentUser } }) => ({
+  currentUser: currentUser,
 });
 
 const mapDispatchToProps = (dispatch) => ({
