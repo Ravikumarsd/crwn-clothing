@@ -1,6 +1,6 @@
 export const addItemToCart = (cartItems, cartItemToAdd) => {
   const indexOfExistingCartItem = cartItems.findIndex(
-    (item) => item.id === cartItemToAdd.id
+    (cartItem) => cartItem.id === cartItemToAdd.id
   );
   if (indexOfExistingCartItem !== -1) {
     const existingCartItem = cartItems[indexOfExistingCartItem];
@@ -8,10 +8,25 @@ export const addItemToCart = (cartItems, cartItemToAdd) => {
       ...existingCartItem,
       quantity: existingCartItem.quantity + 1,
     };
-    console.log("items ===>>", cartItems);
+
     return [...cartItems];
   }
   return cartItems.concat({ ...cartItemToAdd, quantity: 1 });
+};
+
+export const removeItemFromCart = (cartItems, cartItemToRemove) => {
+  const indexOfExistingCartItem = cartItems.findIndex(
+    (cartItem) => cartItem.id === cartItemToRemove.id
+  );
+  const existingCartItem = cartItems[indexOfExistingCartItem];
+  if (existingCartItem.quantity === 1) {
+    return cartItems.filter((cartItem) => cartItem.id !== cartItemToRemove.id);
+  }
+  cartItems[indexOfExistingCartItem] = {
+    ...existingCartItem,
+    quantity: existingCartItem.quantity - 1,
+  };
+  return [...cartItems];
 };
 
 // export const addItemToCart = (cartItems, cartItemToAdd) => {
